@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "369951446481",
+    "project_id": "gambitchess",
+    "storage_bucket": "gambitchess.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369951446481:android:ff90ec41c35aa1babdfcf0",
+        "android_client_info": {
+          "package_name": "com.example.gambit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqqW2W7cTqhydQlqC_bR9FemmlJrV7tc8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
