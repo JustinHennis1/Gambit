@@ -1,16 +1,11 @@
-# gambit
+# Gambit
 
-A new Flutter project.
+This App is a Chess Social Application.
+The backbone of this app includes the implementation of a UI using Flutter as well
+as the use of Stockfish Chess Engine.
 
-## Getting Started
+## Future Endeavors
 
-This project is a starting point for a Flutter application.
+This project is a starting point for Gambit.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+For more information contact Justin at jhennis1@pride.hofstra.edu
