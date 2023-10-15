@@ -30,8 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
+  email_validator: '^2.1.16'
+  flutter_pw_validator: ^1.0.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -39,6 +39,9 @@ dependencies:
   flutter_animate: ^4.2.0+1
   firebase_core: ^2.16.0
   firebase_auth: ^4.10.0
+  cloud_firestore: 4.9.3
+  flutter_chess_board: ^1.0.1
+  chess: ^0.7.0
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +60,11 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  fonts:
+    - family: Satisfy
+      fonts:
+        - asset: assets/fonts/Satisfy/Satisfy-Regular.ttf
+        - asset: assets/fonts/Young_Serif/YoungSerif-Regular.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -75,6 +83,12 @@ flutter:
     - assets/images/gambit9.jpg
     - assets/images/apple.png
     - assets/images/google.png
+    - assets/images/cinematic.jpg
+    - assets/images/Create_User.png
+    - assets/images/back1.png
+    - assets/stockfish-android-armv8
+
+
 
 
 

@@ -17,13 +17,14 @@ class MyButton extends StatelessWidget {
         ),
         child: const Center(
           child: Text(
-            'S u b m i t',
+            'SIGN IN',
+            selectionColor: Colors.white,
             style: TextStyle(
-              color: Color.fromARGB(255, 248, 203, 68),
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'MartianMono',
-            ),
+                color: Color.fromARGB(255, 248, 203, 68),
+                fontSize: 22,
+                fontWeight: FontWeight.w400,
+                fontFamily: 'Times New Roman',
+                letterSpacing: 1.2),
           ),
         ),
       ),
