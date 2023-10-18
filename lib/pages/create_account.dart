@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:gambit/components/appletile.dart';
+import 'package:gambit/components/googletile.dart';
 import 'package:gambit/components/my_textfield.dart';
 import 'package:gambit/components/my_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gambit/pages/auth_page.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
+import 'package:gambit/pages/login_page.dart';
+import 'package:gambit/services/auth_service.dart';
 
 class CreateAccount extends StatefulWidget {
   const CreateAccount({Key? key}) : super(key: key);
 
   @override
-  _CreateAccountState createState() => _CreateAccountState();
+  State<CreateAccount> createState() => _CreateAccountState();
 }
 
 class _CreateAccountState extends State<CreateAccount> {
@@ -101,6 +105,18 @@ class _CreateAccountState extends State<CreateAccount> {
     }
   }
 
+  // Alternate login view containing google and apple icons
+  var alternateLoginview = Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      GoogleTile(
+          onTap: () => AuthService().signInWithGoogle(),
+          imagePath: 'assets/images/google.png'),
+      const SizedBox(width: 55),
+      const SquareTile(imagePath: 'assets/images/apple.png'),
+    ],
+  );
+
   void clearErrorMessage() {
     setState(() {
       errorMessage = null;
@@ -116,6 +132,31 @@ class _CreateAccountState extends State<CreateAccount> {
       },
     );
 
+    // Already have an account
+    var iHaveAccount = TextButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
+      },
+      child: const Padding(
+        padding: EdgeInsets.only(top: 25),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text('Have an Account?'),
+            SizedBox(width: 4),
+            Text('Sign In',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 248, 203, 68),
+                  fontWeight: FontWeight.bold,
+                )),
+          ],
+        ),
+      ),
+    );
+
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -124,7 +165,8 @@ class _CreateAccountState extends State<CreateAccount> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: const AssetImage('assets/images/back1.png'),
+                  image: const AssetImage('assets/images/cinematic.jpg'),
+                  opacity: 0.5,
                   colorFilter: ColorFilter.mode(
                     Colors.black.withOpacity(0.95),
                     BlendMode.dstATop,
@@ -140,16 +182,14 @@ class _CreateAccountState extends State<CreateAccount> {
                 children: <Widget>[
                   const SizedBox(height: 20),
                   MyTextField(
-                    mycolor: Colors.black87,
-
+                    mycolor: Colors.amber,
                     controller: emailcontroller,
                     hintText: 'Enter Email',
                     obscureText: false,
                   ),
                   const SizedBox(height: 15),
                   MyTextField(
-                    mycolor: Colors.black87,
-
+                    mycolor: Colors.amber,
                     controller: passcontroller,
                     hintText: 'Password',
                     obscureText: true,
@@ -162,8 +202,8 @@ class _CreateAccountState extends State<CreateAccount> {
                     lowercaseCharCount: 1,
                     numericCharCount: 1,
                     specialCharCount: 1,
-                    width: 200,
-                    height: 100,
+                    width: 250,
+                    height: 140,
                     onSuccess: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text("Password is matched")),
@@ -172,13 +212,15 @@ class _CreateAccountState extends State<CreateAccount> {
                     onFail: () {},
                   ),
                   MyTextField(
-                    mycolor: Colors.black87,
+                    mycolor: Colors.amber,
                     controller: cpasscontroller,
                     hintText: 'Confirm Password',
                     obscureText: true,
                   ),
                   buttonMakeAcc,
                   const SizedBox(height: 15),
+                  alternateLoginview,
+                  iHaveAccount,
                   if (errorMessage != null)
                     Padding(
                       padding: const EdgeInsets.all(8.0),

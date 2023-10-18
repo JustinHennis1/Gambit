@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gambit/components/game_butt.dart';
 import 'package:gambit/pages/texttheme.dart';
 
 class GamePage extends StatelessWidget {
@@ -28,23 +29,26 @@ class GamePage extends StatelessWidget {
             height: 70,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              TextButton(
-                  onPressed: (null),
-                  child: Text(
-                    "5|5",
-                    style: TextStyle(fontSize: 25, color: Colors.white),
-                  )),
-              VerticalDivider(
-                thickness: 1,
-                color: Color.fromARGB(255, 248, 203, 68),
-                width: 50,
-              ),
-              TextButton(
-                  onPressed: (null),
-                  child: Text("10|5",
-                      style: TextStyle(fontSize: 25, color: Colors.white))),
+              GameButt('5 | 0'),
+              GameButt('5 | 5'),
+              GameButt('10 | 0'),
+              GameButt('10 | 5'),
+            ],
+          ),
+          Divider(
+            thickness: 0.5,
+            color: Color.fromARGB(255, 248, 203, 68),
+            height: 50,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              GameButt('15 | 0'),
+              GameButt('15 | 5'),
+              GameButt('30 | 0'),
+              GameButt('30 | 5'),
             ],
           ),
           Divider(
@@ -55,65 +59,13 @@ class GamePage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextButton(
-                  onPressed: (null),
-                  child: Text("10|0",
-                      style: TextStyle(fontSize: 25, color: Colors.white))),
-              VerticalDivider(
-                thickness: 1,
-                color: Color.fromARGB(255, 248, 203, 68),
-                width: 50,
-              ),
-              TextButton(
-                  onPressed: (null),
-                  child: Text("15|5",
-                      style: TextStyle(fontSize: 25, color: Colors.white))),
-            ],
-          ),
-          Divider(
-            thickness: 0.5,
-            color: Color.fromARGB(255, 248, 203, 68),
-            height: 50,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                  onPressed: (null),
-                  child: Text("15|0",
-                      style: TextStyle(fontSize: 25, color: Colors.white))),
+              GameButt('1 hr'),
               VerticalDivider(
                 thickness: 0.5,
                 color: Color.fromARGB(255, 248, 203, 68),
                 width: 50,
               ),
-              TextButton(
-                  onPressed: (null),
-                  child: Text("30|0",
-                      style: TextStyle(fontSize: 25, color: Colors.white))),
-            ],
-          ),
-          Divider(
-            thickness: 0.5,
-            color: Color.fromARGB(255, 248, 203, 68),
-            height: 50,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                  onPressed: (null),
-                  child: Text("1 hr",
-                      style: TextStyle(fontSize: 25, color: Colors.white))),
-              VerticalDivider(
-                thickness: 0.5,
-                color: Color.fromARGB(255, 248, 203, 68),
-                width: 50,
-              ),
-              TextButton(
-                  onPressed: (null),
-                  child: Text("1 day",
-                      style: TextStyle(fontSize: 25, color: Colors.white))),
+              GameButt('1 day'),
             ],
           ),
         ],

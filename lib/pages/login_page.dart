@@ -6,6 +6,7 @@ import 'package:gambit/components/appletile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gambit/components/start_logo.dart';
 import 'package:gambit/pages/create_account.dart';
+import 'package:gambit/services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -123,12 +124,13 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     // Alternate login view containing google and apple icons
-    const alternateLoginview = Row(
+     var alternateLoginview = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        GoogleTile(imagePath: 'assets/images/google.png'),
-        SizedBox(width: 55),
-        SquareTile(imagePath: 'assets/images/apple.png'),
+        GoogleTile(onTap: () => AuthService().signInWithGoogle() ,
+        imagePath: 'assets/images/google.png'),
+        const SizedBox(width: 55),
+        const SquareTile(imagePath: 'assets/images/apple.png'),
       ],
     );
 

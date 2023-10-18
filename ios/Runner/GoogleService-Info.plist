@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CLIENT_ID</key>
+	<string>369951446481-5kohu1eelbnkmgu36fh66c4p4fvun75j.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.369951446481-5kohu1eelbnkmgu36fh66c4p4fvun75j</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAqINQbrnFtSOSoOqRsq7E1fE94IWlsDU4</string>
 	<key>GCM_SENDER_ID</key>
@@ -26,5 +30,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:369951446481:ios:735822db7cce5e42bdfcf0</string>
+	<key>DATABASE_URL</key>
+	<string>https://gambitchess-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

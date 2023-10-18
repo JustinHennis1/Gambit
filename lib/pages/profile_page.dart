@@ -11,9 +11,10 @@ class ProfilePage extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
+          color: Colors.amber,
           image: DecorationImage(
             fit: BoxFit.fill,
-            image: const AssetImage('assets/images/cinematic.jpg'),
+            image: const AssetImage('assets/images/back3.jpg'),
             colorFilter: ColorFilter.mode(
               Colors.black.withOpacity(0.95),
               BlendMode.dstATop,

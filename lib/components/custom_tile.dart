@@ -19,14 +19,15 @@ class CustomBorderTile extends StatelessWidget {
       if (icon1! == Icons.logout_rounded) {
         return InkWell(
           onTap: () {
-            // Add a delay of 300 milliseconds before executing the onTap logic
-            Future.delayed(const Duration(milliseconds: 150), () {
-              Navigator.pop(context);
-            });
+            Navigator.pop(context);
           },
-          highlightColor: Colors.black,
+          highlightColor: Colors.red,
           child: Container(
             decoration: BoxDecoration(
+              image: const DecorationImage(
+                  opacity: 0.95,
+                  fit: BoxFit.fitWidth,
+                  image: AssetImage('assets/images/lo.jpg')),
               border: Border.all(
                 color: Colors.black, // Set your desired border color here
                 width: 2.0, // Set the border width
@@ -48,17 +49,14 @@ class CustomBorderTile extends StatelessWidget {
 
       return InkWell(
         onTap: () {
-          // Add a delay of 300 milliseconds before executing the onTap logic
-          Future.delayed(const Duration(milliseconds: 150), () {
-            Navigator.pop(context);
-          });
+          Navigator.pop(context);
         },
         highlightColor: Colors.black,
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(
               color: Colors.black, // Set your desired border color here
-              width: 2.0, // Set the border width
+              width: 3.5, // Set the border width
             ),
             borderRadius: BorderRadius.circular(8.0), // Set the border radius
           ),
@@ -67,7 +65,7 @@ class CustomBorderTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Center(child: ListTileTheme1(text1)),
-                Icon(icon1, color: Colors.black87),
+                Icon(icon1, color: Colors.black),
               ],
             ),
           ),
@@ -77,18 +75,15 @@ class CustomBorderTile extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        // Add a delay of 300 milliseconds before executing the onTap logic
-        Future.delayed(const Duration(milliseconds: 300), () {
-          Navigator.pop(context);
-          DefaultTabController.of(context).animateTo(int1!);
-        });
+        Navigator.pop(context);
+        DefaultTabController.of(context).animateTo(int1!);
       },
       highlightColor: Colors.black,
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.black, // Set your desired border color here
-            width: 2.0, // Set the border width
+            width: 3.5, // Set the border width
           ),
           borderRadius: BorderRadius.circular(8.0), // Set the border radius
         ),

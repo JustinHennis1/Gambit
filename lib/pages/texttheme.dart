@@ -75,6 +75,9 @@ class ListTileTheme2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(text1,
         style: const TextStyle(
-            fontSize: 20, fontFamily: 'Young Serif', color: Colors.black));
+            fontSize: 20,
+            fontFamily: 'Young Serif',
+            color: Colors.white,
+            fontWeight: FontWeight.bold));
   }
 }
