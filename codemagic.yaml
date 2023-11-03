@@ -1,0 +1,42 @@
+# Name of your app
+app_name: Gambit
+
+# SDK 
+sdk: flutter
+
+workflows:
+
+  android_build:
+
+    name: Android Build  
+    instance_type: mac_mini
+    
+    artifacts:
+      - app/build/app/outputs/apk/release/app-release.apk
+
+    # Keep Android signing
+    android_signing:
+      - keystore: ../android.keystore
+        keystore_password: "%ANDROID_KEYSTORE_PASSWORD%"
+        key_alias: "%ANDROID_KEY_ALIAS%"
+        key_password: "%ANDROID_KEY_PASSWORD%"
+
+  ios_build:
+
+    name: iOS Build
+    instance_type: mac_mini
+
+    # Export IPA without signing 
+    export_method: development
+    artifacts:
+      - ./build/ios/ipa/*.ipa 
+
+# Caching and Firebase config
+cache:
+  - flutter
+
+integrations:
+  flutter_firebase:
+   files:
+     - "./google-services.json"
+     - "./GoogleService-Info.plist"
