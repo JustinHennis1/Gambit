@@ -12,7 +12,7 @@ class ComputerPlayer {
     final currentFEN = controller.getFen();
     print('currentFen =  $currentFEN');
     // Query the API to get the best move
-    final result = await getBestMove(currentFEN);
+    final result = await getBestMove(currentFEN, 10);
     print('Result = $result');
     var move1 = result.toString().substring(0, 2);
     print('Move1 = $move1');

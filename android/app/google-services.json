@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "369951446481",
+    "firebase_url": "https://gambitchess-default-rtdb.firebaseio.com",
     "project_id": "gambitchess",
     "storage_bucket": "gambitchess.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.example.gambit"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "369951446481-9uqq40uj50j5knom0skr4ucev5hpjvrv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gambit",
+            "certificate_hash": "9c49cde2785afd1f3df6cf872902ced82da65094"
+          }
+        },
+        {
+          "client_id": "369951446481-77s7n4m42h28ovijicv1ue9uvq800cd5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBqqW2W7cTqhydQlqC_bR9FemmlJrV7tc8"
@@ -20,7 +34,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "369951446481-77s7n4m42h28ovijicv1ue9uvq800cd5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "369951446481-5kohu1eelbnkmgu36fh66c4p4fvun75j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gambit"
+              }
+            }
+          ]
         }
       }
     }

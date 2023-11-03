@@ -11,16 +11,22 @@ class SettingsPage extends StatelessWidget {
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
+        color: Colors.black,
         image: DecorationImage(
           fit: BoxFit.fill,
-          image: const AssetImage('assets/images/cinematic.jpg'),
+          image: const AssetImage('assets/images/coffee.jpg'),
           colorFilter: ColorFilter.mode(
             Colors.black.withOpacity(0.95),
             BlendMode.dstATop,
           ),
         ),
       ),
-      child: const TextTheme1('Settings'),
+      child: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextTheme1('Settings'),
+        ],
+      ),
     );
   }
 }

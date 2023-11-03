@@ -25,7 +25,7 @@ class MyTextField extends StatelessWidget {
             fontFamily: 'Times New Roman',
             decorationColor: Colors.black38),
         enableInteractiveSelection: true,
-        maxLength: 40,
+        maxLength: 254,
         maxLengthEnforcement: MaxLengthEnforcement.enforced,
         showCursor: true,
         cursorColor: Colors.white,

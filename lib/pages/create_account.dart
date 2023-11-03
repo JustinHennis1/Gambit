@@ -1,117 +1,156 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:gambit/components/appletile.dart';
 import 'package:gambit/components/googletile.dart';
 import 'package:gambit/components/my_textfield.dart';
 import 'package:gambit/components/my_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gambit/pages/auth_page.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
+import 'package:gambit/pages/auth_page.dart';
 import 'package:gambit/pages/login_page.dart';
+import 'package:gambit/services/adduser.dart';
 import 'package:gambit/services/auth_service.dart';
+import 'package:gambit/services/isusername.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateAccount extends StatefulWidget {
-  const CreateAccount({Key? key}) : super(key: key);
+  const CreateAccount({super.key});
 
   @override
   State<CreateAccount> createState() => _CreateAccountState();
 }
 
 class _CreateAccountState extends State<CreateAccount> {
-  final emailcontroller = TextEditingController();
-  final passcontroller = TextEditingController();
-  final cpasscontroller = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+
   String? errorMessage;
 
   bool isValidEmail(String email) {
-    if (EmailValidator.validate(email)) {
-      return true;
-    }
-    return false;
+    return EmailValidator.validate(email);
   }
 
   bool isStrongPassword(String password) {
-    // Define a regex pattern for strong password requirements
     final RegExp passwordRegex = RegExp(
       r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$',
     );
-
-    // Check if the password matches the pattern
     return passwordRegex.hasMatch(password);
   }
 
-  void createAccount(BuildContext context) async {
-    // show loading circle
+  Future<void> createAccount(BuildContext context) async {
     showDialog(
       context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
+      builder: (context) => _buildUsernameDialog(context),
     );
+  }
 
+  Widget _buildUsernameDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Create Username'),
+      content: TextField(
+        controller: usernameController,
+        decoration: const InputDecoration(labelText: 'Enter your username'),
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () async {
+            Navigator.pop(context);
+
+            bool isUsernameAvailable =
+                await isUserAvailable(usernameController.text);
+
+            if (isUsernameAvailable) {
+              await addNewUser(usernameController.text, emailController.text);
+
+              await _createAccountWithEmail(context);
+
+              //Navigator.pop(context);
+            } else {
+              setState(() {
+                errorMessage =
+                    'Username is already taken. Please choose another one.';
+              });
+            }
+          },
+          child: const Text('Submit'),
+        ),
+      ],
+    );
+  }
+
+  _createAccountWithEmail(BuildContext context) async {
     try {
-      if (!isValidEmail(emailcontroller.text)) {
-        // Show error message
-        setState(() {
-          errorMessage = 'Invalid Email';
-        });
-      } else if (!isStrongPassword(passcontroller.text) ||
-          !isValidEmail(emailcontroller.text)) {
-        // Show error message
-        setState(() {
-          errorMessage =
-              'Please include at least 1 uppercase, 1 lowercase, 1 number, and 1 special character';
-        });
-      } else if (passcontroller.text != cpasscontroller.text) {
-        // Show error message
-        setState(() {
-          errorMessage = 'Passwords do not match';
-        });
-      } else if (passcontroller.text != cpasscontroller.text ||
-          !isValidEmail(emailcontroller.text) ||
-          !isStrongPassword(passcontroller.text)) {
-        // Show error message
-        setState(() {
-          errorMessage = 'Incorrect Email or Password';
-        });
+      //setValidationData('', '');
+      if (!isValidEmail(emailController.text)) {
+        _showErrorMessage('Invalid Email');
+      } else if (!isStrongPassword(passwordController.text) ||
+          !isValidEmail(emailController.text)) {
+        _showErrorMessage(
+            'Please include at least 1 uppercase, 1 lowercase, 1 number, and 1 special character');
+      } else if (passwordController.text != confirmPasswordController.text) {
+        _showErrorMessage('Passwords do not match');
       } else {
-        // Clear any existing error message
         clearErrorMessage();
+        setValidationData(usernameController.text, emailController.text);
 
-        // If there are no errors, create the user
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: emailcontroller.text, password: passcontroller.text);
-
-        // Navigate to the AuthPage
-        await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const AuthPage(),
-          ),
-        );
+        // Use then to handle the successful account creation
+        await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        )
+            .then((userCredential) async {
+          // Account creation successful, navigate to homepage
+          await Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AuthPage(),
+            ),
+          );
+        });
       }
     } on FirebaseAuthException catch (e) {
-      // Handle FirebaseAuthException
-      setState(() {
-        errorMessage = e.message;
-      });
-    } finally {
-      // Hide loading circle
-      if (Navigator.canPop(context)) {
-        Navigator.pop(context);
-      }
+      _showErrorMessage(e.message!);
+    } catch (e) {
+      print('Unexpected error: $e');
     }
   }
 
-  // Alternate login view containing google and apple icons
-  var alternateLoginview = Row(
+  void _showErrorMessage(String message) {
+    // Use a Future to update the state after the build phase
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        errorMessage = message;
+      });
+    });
+  }
+
+  Future setValidationData(String username, String email) async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    sharedPreferences.setString('username', username);
+    sharedPreferences.setString('email', email);
+  }
+
+  var alternateLoginView = Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       GoogleTile(
-          onTap: () => AuthService().signInWithGoogle(),
-          imagePath: 'assets/images/google.png'),
+        onTap: () => AuthService().signInWithGoogle(),
+        imagePath: 'assets/images/google.png',
+      ),
       const SizedBox(width: 55),
       const SquareTile(imagePath: 'assets/images/apple.png'),
     ],
@@ -132,7 +171,6 @@ class _CreateAccountState extends State<CreateAccount> {
       },
     );
 
-    // Already have an account
     var iHaveAccount = TextButton(
       onPressed: () {
         Navigator.push(
@@ -147,11 +185,13 @@ class _CreateAccountState extends State<CreateAccount> {
           children: [
             Text('Have an Account?'),
             SizedBox(width: 4),
-            Text('Sign In',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 248, 203, 68),
-                  fontWeight: FontWeight.bold,
-                )),
+            Text(
+              'Sign In',
+              style: TextStyle(
+                color: Color.fromARGB(255, 248, 203, 68),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
       ),
@@ -183,20 +223,20 @@ class _CreateAccountState extends State<CreateAccount> {
                   const SizedBox(height: 20),
                   MyTextField(
                     mycolor: Colors.amber,
-                    controller: emailcontroller,
+                    controller: emailController,
                     hintText: 'Enter Email',
                     obscureText: false,
                   ),
                   const SizedBox(height: 15),
                   MyTextField(
                     mycolor: Colors.amber,
-                    controller: passcontroller,
+                    controller: passwordController,
                     hintText: 'Password',
                     obscureText: true,
                   ),
                   FlutterPwValidator(
                     defaultColor: Colors.black87,
-                    controller: passcontroller,
+                    controller: passwordController,
                     minLength: 8,
                     uppercaseCharCount: 1,
                     lowercaseCharCount: 1,
@@ -206,20 +246,22 @@ class _CreateAccountState extends State<CreateAccount> {
                     height: 140,
                     onSuccess: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Password is matched")),
+                        const SnackBar(
+                          content: Text("Password is matched"),
+                        ),
                       );
                     },
                     onFail: () {},
                   ),
                   MyTextField(
                     mycolor: Colors.amber,
-                    controller: cpasscontroller,
+                    controller: confirmPasswordController,
                     hintText: 'Confirm Password',
                     obscureText: true,
                   ),
                   buttonMakeAcc,
                   const SizedBox(height: 15),
-                  alternateLoginview,
+                  alternateLoginView,
                   iHaveAccount,
                   if (errorMessage != null)
                     Padding(

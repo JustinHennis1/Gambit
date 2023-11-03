@@ -4,9 +4,9 @@ import 'package:gambit/pages/log_off.dart';
 import 'package:gambit/pages/texttheme.dart';
 
 class CustomBorderTile extends StatelessWidget {
-  const CustomBorderTile(this.text1, this.int1, this.icon1, {Key? key})
-      : super(key: key);
-
+  const CustomBorderTile(this.destination, this.text1, this.int1, this.icon1,
+      {super.key});
+  final dynamic destination;
   final String text1;
   final int? int1;
   final IconData? icon1;
@@ -19,20 +19,30 @@ class CustomBorderTile extends StatelessWidget {
       if (icon1! == Icons.logout_rounded) {
         return InkWell(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => destination));
           },
-          highlightColor: Colors.red,
+          highlightColor: Colors.white,
           child: Container(
+            alignment: Alignment.topCenter,
             decoration: BoxDecoration(
-              image: const DecorationImage(
-                  opacity: 0.95,
-                  fit: BoxFit.fitWidth,
-                  image: AssetImage('assets/images/lo.jpg')),
+              gradient: const LinearGradient(colors: [
+                Colors.amber,
+                Colors.red,
+              ], begin: Alignment.bottomRight, end: Alignment.topLeft),
+              //color: Colors.red,
+              //image: const DecorationImage(
+              //  opacity: 0.95,
+              //fit: BoxFit.fill,
+              //image: AssetImage('assets/images/lo.jpg')),
               border: Border.all(
                 color: Colors.black, // Set your desired border color here
-                width: 2.0, // Set the border width
+                width: 5,
+
+                // Set the border width
               ),
-              borderRadius: BorderRadius.circular(8.0), // Set the border radius
+              borderRadius:
+                  BorderRadius.circular(20.0), // Set the border radius
             ),
             child: const ListTile(
               title: Row(
@@ -49,16 +59,21 @@ class CustomBorderTile extends StatelessWidget {
 
       return InkWell(
         onTap: () {
-          Navigator.pop(context);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => destination));
         },
-        highlightColor: Colors.black,
+        highlightColor: Colors.white,
         child: Container(
+          alignment: Alignment.topCenter,
           decoration: BoxDecoration(
+            color: Colors.amber.shade700.withOpacity(0.8),
+
             border: Border.all(
+              style: BorderStyle.solid,
               color: Colors.black, // Set your desired border color here
-              width: 3.5, // Set the border width
+              width: 5, // Set the border width
             ),
-            borderRadius: BorderRadius.circular(8.0), // Set the border radius
+            borderRadius: BorderRadius.circular(20.0), // Set the border radius
           ),
           child: ListTile(
             title: Row(
@@ -78,14 +93,17 @@ class CustomBorderTile extends StatelessWidget {
         Navigator.pop(context);
         DefaultTabController.of(context).animateTo(int1!);
       },
-      highlightColor: Colors.black,
+      highlightColor: Colors.amber,
       child: Container(
+        alignment: Alignment.topCenter,
         decoration: BoxDecoration(
+          color: Colors.amber.shade700.withOpacity(0.8),
+
           border: Border.all(
             color: Colors.black, // Set your desired border color here
-            width: 3.5, // Set the border width
+            width: 5, // Set the border width
           ),
-          borderRadius: BorderRadius.circular(8.0), // Set the border radius
+          borderRadius: BorderRadius.circular(20.0), // Set the border radius
         ),
         child: ListTile(
           title: Row(

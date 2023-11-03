@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '369951446481',
     projectId: 'gambitchess',
     authDomain: 'gambitchess.firebaseapp.com',
+    databaseURL: 'https://gambitchess-default-rtdb.firebaseio.com',
     storageBucket: 'gambitchess.appspot.com',
     measurementId: 'G-BWXMGNGMDK',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:369951446481:android:ff90ec41c35aa1babdfcf0',
     messagingSenderId: '369951446481',
     projectId: 'gambitchess',
+    databaseURL: 'https://gambitchess-default-rtdb.firebaseio.com',
     storageBucket: 'gambitchess.appspot.com',
   );
 
@@ -66,7 +68,10 @@ class DefaultFirebaseOptions {
     appId: '1:369951446481:ios:735822db7cce5e42bdfcf0',
     messagingSenderId: '369951446481',
     projectId: 'gambitchess',
+    databaseURL: 'https://gambitchess-default-rtdb.firebaseio.com',
     storageBucket: 'gambitchess.appspot.com',
+    androidClientId: '369951446481-9uqq40uj50j5knom0skr4ucev5hpjvrv.apps.googleusercontent.com',
+    iosClientId: '369951446481-5kohu1eelbnkmgu36fh66c4p4fvun75j.apps.googleusercontent.com',
     iosBundleId: 'com.example.gambit',
   );
 
@@ -75,7 +80,10 @@ class DefaultFirebaseOptions {
     appId: '1:369951446481:ios:7869424c7bbbb881bdfcf0',
     messagingSenderId: '369951446481',
     projectId: 'gambitchess',
+    databaseURL: 'https://gambitchess-default-rtdb.firebaseio.com',
     storageBucket: 'gambitchess.appspot.com',
+    androidClientId: '369951446481-9uqq40uj50j5knom0skr4ucev5hpjvrv.apps.googleusercontent.com',
+    iosClientId: '369951446481-alvdvnc53kktvve505363qoj3b0nseiu.apps.googleusercontent.com',
     iosBundleId: 'com.example.gambit.RunnerTests',
   );
 }

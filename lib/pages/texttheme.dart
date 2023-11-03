@@ -24,6 +24,19 @@ class TextTheme2 extends StatelessWidget {
   }
 }
 
+class TextTheme25 extends StatelessWidget {
+  const TextTheme25(this.text1, {super.key});
+  final String text1;
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text1,
+      style: const TextStyle(
+          fontSize: 26, fontFamily: 'Satisfy', color: Colors.red),
+    );
+  }
+}
+
 class TextTheme3 extends StatelessWidget {
   const TextTheme3(this.text1, {super.key});
   final String text1;
@@ -76,8 +89,8 @@ class ListTileTheme2 extends StatelessWidget {
     return Text(text1,
         style: const TextStyle(
             fontSize: 20,
-            fontFamily: 'Young Serif',
-            color: Colors.white,
+            fontFamily: 'Satisfy',
+            color: Colors.black,
             fontWeight: FontWeight.bold));
   }
 }

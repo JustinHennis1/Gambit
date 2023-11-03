@@ -12,19 +12,16 @@ class LogoBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Container(
-          height: logoHt,
-          decoration: BoxDecoration(
-              border: Border.all(
-                  color: const Color.fromARGB(125, 101, 87, 14), width: 3),
-              color: Colors.black,
-              borderRadius: const BorderRadius.all(Radius.circular(25))),
-          child: Image.asset(
-            imagePath,
-            //height: logoHt,
-          ),
+      child: Container(
+        height: logoHt,
+        decoration: BoxDecoration(
+            border: Border.all(
+                color: const Color.fromARGB(125, 101, 87, 14), width: 3),
+            color: Colors.black,
+            borderRadius: const BorderRadius.all(Radius.circular(25))),
+        child: Image.asset(
+          imagePath,
+          //height: logoHt,
         ),
       ),
     );

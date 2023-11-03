@@ -5,8 +5,11 @@ import 'package:gambit/components/my_textfield.dart';
 import 'package:gambit/components/appletile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gambit/components/start_logo.dart';
+import 'package:gambit/pages/auth_page.dart';
 import 'package:gambit/pages/create_account.dart';
 import 'package:gambit/services/auth_service.dart';
+import 'package:gambit/services/getusername.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -24,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void signuserIn(BuildContext context) async {
     // show loading circle
+
     showDialog(
       context: context,
       builder: (context) {
@@ -35,11 +39,23 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailcontroller.text, password: passcontroller.text);
-
-      Navigator.pop(context);
+      var tempuser = await getUsernameByEmail(emailcontroller.text);
+      if (tempuser != null) {
+        setValidationData(tempuser, emailcontroller.text);
+      }
+      print('temp user is : $tempuser');
+      print('emailcontroller.text is : ${emailcontroller.text}');
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const AuthPage(),
+        ),
+      );
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
       // Wrong Email
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
       if (e.code == 'user-not-found') {
         // Show error message
         setState(() {
@@ -60,6 +76,13 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       errorMessage = null;
     });
+  }
+
+  Future setValidationData(String username, String email) async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    sharedPreferences.setString('username', username);
+    sharedPreferences.setString('email', email);
   }
 
   // Login Page class
@@ -124,11 +147,12 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     // Alternate login view containing google and apple icons
-     var alternateLoginview = Row(
+    var alternateLoginview = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        GoogleTile(onTap: () => AuthService().signInWithGoogle() ,
-        imagePath: 'assets/images/google.png'),
+        GoogleTile(
+            onTap: () => AuthService().signInWithGoogle(),
+            imagePath: 'assets/images/google.png'),
         const SizedBox(width: 55),
         const SquareTile(imagePath: 'assets/images/apple.png'),
       ],
