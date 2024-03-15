@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
+
+import 'package:gambit/components/neon_butt.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gambit/pages/texttheme.dart';
+import 'package:gambit/components/texttheme.dart';
 
 String? username;
 String? email;
@@ -23,16 +25,22 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(const Duration(microseconds: 500), () async {
-      await getValidationData();
-    });
-
-    Future.delayed(const Duration(microseconds: 500), () async {
-      await fetchUserRating(username, email);
-    });
-
+    //loadImage('assets/images/blur.jpg');
+    getValidationData();
     _imagePicker = ImagePicker();
+  }
+
+  Future<void> loadImage(String path) async {
+    try {
+      // load network image example
+      await precacheImage(AssetImage(path), context);
+      // or
+      // Load assets image example
+      // await precacheImage(AssetImage(imagePath), context);
+      print('Image loaded and cached successfully!');
+    } catch (e) {
+      print('Failed to load and cache the image: $e');
+    }
   }
 
   Future getValidationData() async {
@@ -40,46 +48,13 @@ class _ProfilePageState extends State<ProfilePage> {
         await SharedPreferences.getInstance();
     var obtainedUsername = sharedPreferences.getString('username');
     var obtainedEmail = sharedPreferences.getString('email');
+    var obtainedrating = sharedPreferences.getInt('rating');
 
     setState(() {
       username = obtainedUsername;
       email = obtainedEmail;
+      userRating = obtainedrating;
     });
-  }
-
-  Future<void> fetchUserRating(username, email) async {
-    final dio = Dio();
-    const baseUrl = 'http://10.0.2.2:5000';
-
-    if (username != null) {
-      print('Username: $username');
-      print('Email = $email');
-    } else {
-      print('Username is null');
-    }
-
-    try {
-      final response = await dio.get('$baseUrl/get_rating/$username');
-      if (response.statusCode == 200) {
-        final responseData = response.data;
-        if (responseData is Map && responseData.containsKey('rating')) {
-          final rating = responseData['rating'];
-          setState(() {
-            userRating = rating.toInt();
-          });
-          print(rating);
-        } else {
-          print('Unexpected response format: $responseData');
-        }
-      } else {
-        print('Unexpected status code: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Dio error: $e');
-      if (e is DioException) {
-        print('Dio response: ${e.response?.data}');
-      }
-    }
   }
 
   Future<void> _getImage() async {
@@ -90,6 +65,26 @@ class _ProfilePageState extends State<ProfilePage> {
         _image = XFile(pickedFile.path);
       });
     }
+  }
+
+  Future<void> deleteAccount(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (context) => _buildDeleteDialog(context),
+    );
+  }
+
+  Widget _buildDeleteDialog(BuildContext context) {
+    return AlertDialog(
+        title: const Text(
+          'Delete this Account?',
+          style: TextStyle(
+              color: Colors.black87, wordSpacing: 2.0, letterSpacing: 2.0),
+        ),
+        content: DeleteAccount(username ?? "", "Delete"),
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20))));
   }
 
   @override
@@ -120,10 +115,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: const Text('Upload Profile Picture'),
                   )
                 : _image != null
-                    ? SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: Image.file(File(_image!.path)))
+                    ? ClipOval(
+                        child: SizedBox(
+                            height: 180,
+                            width: 180,
+                            child: Image.file(File(_image!.path))),
+                      )
                     : const SizedBox.shrink(),
             DataTable(
               columns: const [
@@ -141,12 +138,22 @@ class _ProfilePageState extends State<ProfilePage> {
                 ]),
                 DataRow(cells: [
                   const DataCell(TextTheme4('Rating')),
-                  DataCell(TextTheme4(userRating?.toString() ?? '')),
+                  DataCell(TextTheme4(userRating.toString())),
                 ]),
                 // Add more rows as needed for other attributes
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 150),
+            GestureDetector(
+                onTap: () {
+                  deleteAccount(context);
+                },
+                child: const Text(
+                  "Delete Account",
+                  style: TextStyle(
+                      color: Colors.red, fontFamily: "Times New Roman"),
+                )),
+            //DeleteAccount(username ?? '', "Delete Account"),
           ],
         ),
       ),

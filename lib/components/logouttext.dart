@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gambit/pages/texttheme.dart';
+import 'package:gambit/components/texttheme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:gambit/pages/base_page.dart';
 
@@ -10,7 +10,7 @@ class LogOffText extends StatelessWidget {
   Future<void> logOff() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-
+    await sharedPreferences.remove('email');
     // Remove stored values
     await sharedPreferences.remove('username');
     // Assuming 'rating' is the key used for storing the rating
@@ -22,6 +22,7 @@ class LogOffText extends StatelessWidget {
     //final user = FirebaseAuth.instance.currentUser!;
 
     void signUserOut() {
+      logOff();
       FirebaseAuth.instance.signOut();
     }
 

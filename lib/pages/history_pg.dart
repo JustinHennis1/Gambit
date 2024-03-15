@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:gambit/components/contain_image.dart';
+
 import 'package:gambit/pages/basescreen.dart';
-import 'package:gambit/pages/texttheme.dart';
+import 'package:gambit/components/texttheme.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    void getHome() {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const BaseScreen(0)));
+    double appBarHeight = MediaQuery.of(context).size.height * 0.10;
+
+        void getHome() {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const BaseScreen(0)),
+        (route) => false,
+      );
     }
 
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: appBarHeight,
         centerTitle: true,
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
         title: SizedBox(
-            height: 90,
+            height: appBarHeight,
             child: GestureDetector(
                 onDoubleTap: getHome,
                 child: Image.asset('assets/images/prodigy1.png'))),

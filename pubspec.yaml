@@ -41,7 +41,6 @@ dependencies:
   firebase_core: ^2.16.0
   firebase_auth: ^4.12.0
   cloud_firestore: ^4.11.0
-  flutter_chess_board: ^1.0.1
   chess: ^0.7.0
   dio: ^5.3.3
   google_sign_in: ^6.1.5
@@ -52,6 +51,11 @@ dependencies:
   shared_preferences: ^2.2.2
   shelf: ^1.4.1
   shelf_router: ^1.1.4
+  animated_background: ^2.0.0
+  chess_vectors_flutter: ^1.0.18
+  cached_network_image: ^3.3.0
+  web_socket_channel: ^2.4.0
+  collection: ^1.18.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -81,7 +85,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/gambit1.png
+    - assets/images/gambit1.png             #interface
     - assets/images/gambit2.png
     - assets/images/gambit3.png
     - assets/images/gambit4.jpg
@@ -115,6 +119,9 @@ flutter:
     - assets/images/light.jpg
     - assets/images/water.jpg
     - assets/images/fire.jpg
+    - lib/puzzle_maker/100-chess-to-solve.txt
+    - lib/puzzle_maker/puzzleholder.txt
+
 
 
 
@@ -132,6 +139,23 @@ flutter:
     - assets/images/chesspieces/wq.png
     - assets/images/chesspieces/wr.png
     - assets/images/chesspieces/wp.png
+    - assets/images/chesspieces/rr.png
+    - assets/images/chesspieces/rk.png
+
+    - assets/images/chess_board.png          #boards
+    - assets/images/brown_board.png
+    - assets/images/2.0x/brown_board.png
+    - assets/images/3.0x/brown_board.png
+    - assets/images/orange_board.png
+    - assets/images/2.0x/orange_board.png
+    - assets/images/3.0x/orange_board.png
+    - assets/images/green_board.png
+    - assets/images/2.0x/green_board.png
+    - assets/images/3.0x/green_board.png
+    - assets/images/dark_brown_board.png
+    - assets/images/2.0x/dark_brown_board.png
+    - assets/images/3.0x/dark_brown_board.png
+
 
 
 

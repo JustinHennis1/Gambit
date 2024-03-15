@@ -1,13 +1,17 @@
 import 'package:dio/dio.dart';
 
-Future<String> getBestMove(String fen, int depth) async {
+Future<String> getBestMove(String fen, int depth, int time) async {
   assert(depth <= 13 && depth >= 1);
   final dio = Dio();
 
   try {
     final response = await dio.get(
-      "https://stockfish.online/api/stockfish.php",
-      queryParameters: {'fen': fen, 'depth': depth, 'mode': 'bestmove'},
+      "http://10.0.2.2:8080/getBestMove",
+      queryParameters: {
+        'fen': fen,
+        'depth': depth,
+        'time': time,
+      },
     );
 
     final result = parseStockfishResult(response.data.toString());
@@ -42,12 +46,12 @@ String parseStockfishResult(String result) {
 
 void main() async {
   try {
-    const fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+    const fen = 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1';
 
     // Adjust the depth as needed
-    final depth = 3;
+    final depth = 1;
 
-    final result = await getBestMove(fen, depth);
+    final result = await getBestMove(fen, depth, 100);
     print('Best Move: $result');
   } catch (e) {
     print('Error: $e');

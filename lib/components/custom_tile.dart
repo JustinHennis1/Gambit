@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gambit/components/logouttext.dart';
 import 'package:gambit/pages/log_off.dart';
-import 'package:gambit/pages/texttheme.dart';
+import 'package:gambit/components/texttheme.dart';
 
 class CustomBorderTile extends StatelessWidget {
   const CustomBorderTile(this.destination, this.text1, this.int1, this.icon1,
@@ -13,8 +13,11 @@ class CustomBorderTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // if index is not null make sure it is a vlaid index
     if (int1 != null) {
       assert(int1! >= 0 && int1! <= 3);
+
+      // if index is null route to the proper destination page
     } else if (int1 == null) {
       if (icon1! == Icons.logout_rounded) {
         return InkWell(
@@ -30,16 +33,9 @@ class CustomBorderTile extends StatelessWidget {
                 Colors.amber,
                 Colors.red,
               ], begin: Alignment.bottomRight, end: Alignment.topLeft),
-              //color: Colors.red,
-              //image: const DecorationImage(
-              //  opacity: 0.95,
-              //fit: BoxFit.fill,
-              //image: AssetImage('assets/images/lo.jpg')),
               border: Border.all(
                 color: Colors.black, // Set your desired border color here
                 width: 5,
-
-                // Set the border width
               ),
               borderRadius:
                   BorderRadius.circular(20.0), // Set the border radius
@@ -93,7 +89,7 @@ class CustomBorderTile extends StatelessWidget {
         Navigator.pop(context);
         DefaultTabController.of(context).animateTo(int1!);
       },
-      highlightColor: Colors.amber,
+      highlightColor: Colors.white,
       child: Container(
         alignment: Alignment.topCenter,
         decoration: BoxDecoration(

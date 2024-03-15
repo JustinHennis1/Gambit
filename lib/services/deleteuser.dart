@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 
-Future<bool> deleteUser(String username, String email) async {
+Future<bool> deleteUser(String username) async {
   final dio = Dio();
   const baseUrl = 'http://10.0.2.2:5000'; // Change this based on your API URL
 
   try {
-    final response = await dio.post(
-        '$baseUrl/delete_user/$username', // Include the username in the URL
-        data: {'rating': 1200, 'email': email});
+    final response = await dio.delete(
+      '$baseUrl/delete_user/$username', // Include the username in the URL
+    );
 
     print(response.statusCode);
 

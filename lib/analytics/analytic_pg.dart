@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gambit/pages/texttheme.dart';
+import 'package:gambit/components/texttheme.dart';
 
 class AnalyticPage extends StatelessWidget {
   const AnalyticPage({super.key});

@@ -3,17 +3,12 @@ import 'package:gambit/components/custom_tile.dart';
 import 'package:gambit/components/start_logo.dart';
 import 'package:gambit/pages/basescreen.dart';
 import 'package:gambit/pages/history_pg.dart';
-
-//import 'package:gambit/pages/games_page.dart';
 import 'package:gambit/pages/home_page.dart';
 import 'package:gambit/pages/leaderboard.dart';
-import 'package:gambit/learn/learn_page.dart';
 import 'package:gambit/pages/log_off.dart';
-
 import 'package:gambit/pages/profile_page.dart';
 import 'package:gambit/pages/settings_page.dart';
 import 'package:gambit/pages/social_page.dart';
-import 'package:get/get.dart';
 
 class TabBarController extends StatefulWidget {
   const TabBarController({super.key});
@@ -31,6 +26,7 @@ class _TabBarControllerState extends State<TabBarController> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    double appBarHeight = MediaQuery.of(context).size.height * 0.10;
     return Scaffold(
       drawer: Drawer(
         backgroundColor: Colors.black,
@@ -40,9 +36,8 @@ class _TabBarControllerState extends State<TabBarController> {
           children: [
             DrawerHeader(
                 decoration: BoxDecoration(
-                    color:
-                        const Color.fromRGBO(255, 160, 0, 1).withOpacity(0.8),
-                    backgroundBlendMode: BlendMode.colorBurn),
+                  color: const Color.fromRGBO(255, 160, 0, 1).withOpacity(0.8),
+                ),
                 child: const LogoBox(
                     imagePath: 'assets/images/prodigy1.png', logoHt: 200)),
             const CustomBorderTile(null, 'Home ', 0, Icons.home),
@@ -86,31 +81,37 @@ class _TabBarControllerState extends State<TabBarController> {
           ],
         ),
       ),
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerboxisScrolled) {
-          return [
-            SliverAppBar(
-              pinned: true,
-              centerTitle: true,
-              title: SizedBox(
-                height: 90,
-                child: GestureDetector(
-                    onDoubleTap: getHome,
-                    child: const Image(
-                        image: AssetImage('assets/images/prodigy1.png'))),
-              ), //TextTheme2("Gambit"),
-              backgroundColor: Colors.black87,
-              floating: false,
-              //actions: [LogOff()],
-            ),
-          ];
-        },
-        body: const TabBarView(
-          children: [HomePage(), LeaderPage(), ProfilePage(), SettingsPage()],
+      body: Container(
+        padding: EdgeInsets.only(top: appBarHeight * .5),
+        decoration: const BoxDecoration(color: Colors.black87),
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerboxisScrolled) {
+            return [
+              SliverAppBar(
+                pinned: true,
+                centerTitle: true,
+                title: SizedBox(
+                  height: appBarHeight,
+                  child: GestureDetector(
+                      onDoubleTap: getHome,
+                      child: const Image(
+                          image: AssetImage('assets/images/prodigy1.png'))),
+                ), //TextTheme2("Gambit"),
+                backgroundColor: Colors.black87,
+                foregroundColor: Colors.white,
+                floating: false,
+
+                //actions: [LogOff()],
+              ),
+            ];
+          },
+          body: const TabBarView(
+            children: [HomePage(), LeaderPage(), ProfilePage(), SettingsPage()],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.black87,
+        color: Colors.black,
         child: TabBar(
             tabs: [
               _buildTab(Icons.home, 0),

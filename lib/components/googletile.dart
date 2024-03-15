@@ -10,6 +10,7 @@ class GoogleTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        width: 300,
         decoration: BoxDecoration(
             border: Border.all(
                 color: const Color.fromARGB(124, 211, 180, 24), width: 3),

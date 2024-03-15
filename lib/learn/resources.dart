@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gambit/pages/texttheme.dart';
+import 'package:gambit/components/texttheme.dart';
 
 class ResourcesPage extends StatelessWidget {
   const ResourcesPage({super.key});
@@ -11,7 +11,7 @@ class ResourcesPage extends StatelessWidget {
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.amber,
+        color: Colors.black87,
         image: DecorationImage(
           fit: BoxFit.fill,
           image: const AssetImage('assets/images/coffee.jpg'),

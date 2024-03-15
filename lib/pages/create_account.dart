@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:gambit/components/appletile.dart';
+//import 'package:gambit/components/appletile.dart';
 import 'package:gambit/components/googletile.dart';
 import 'package:gambit/components/my_textfield.dart';
 import 'package:gambit/components/my_button.dart';
@@ -123,8 +123,6 @@ class _CreateAccountState extends State<CreateAccount> {
       }
     } on FirebaseAuthException catch (e) {
       _showErrorMessage(e.message!);
-    } catch (e) {
-      print('Unexpected error: $e');
     }
   }
 
@@ -151,8 +149,8 @@ class _CreateAccountState extends State<CreateAccount> {
         onTap: () => AuthService().signInWithGoogle(),
         imagePath: 'assets/images/google.png',
       ),
-      const SizedBox(width: 55),
-      const SquareTile(imagePath: 'assets/images/apple.png'),
+      //const SizedBox(width: 55),
+      //const SquareTile(imagePath: 'assets/images/apple.png'),
     ],
   );
 

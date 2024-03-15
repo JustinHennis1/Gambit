@@ -27,6 +27,7 @@ class _Control2State extends State<Control2> {
 
   @override
   Widget build(BuildContext context) {
+    double appBarHeight = MediaQuery.of(context).size.height * 0.10;
     return Scaffold(
       drawer: Drawer(
         backgroundColor: Colors.black,
@@ -36,9 +37,8 @@ class _Control2State extends State<Control2> {
           children: [
             DrawerHeader(
                 decoration: BoxDecoration(
-                    color:
-                        const Color.fromRGBO(255, 160, 0, 1).withOpacity(0.8),
-                    backgroundBlendMode: BlendMode.colorBurn),
+                  color: const Color.fromRGBO(255, 160, 0, 1).withOpacity(0.8),
+                ),
                 child: const LogoBox(
                     imagePath: 'assets/images/prodigy1.png', logoHt: 200)),
             const CustomBorderTile(BaseScreen(0), 'Home ', null, Icons.home),
@@ -73,36 +73,41 @@ class _Control2State extends State<Control2> {
           ],
         ),
       ),
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerboxisScrolled) {
-          return [
-            SliverAppBar(
-              pinned: true,
-              centerTitle: true,
-              title: SizedBox(
-                height: 90,
-                child: GestureDetector(
-                    onDoubleTap: getHome,
-                    child: const Image(
-                        image: AssetImage('assets/images/prodigy1.png'))),
-              ), //TextTheme2("Gambit"),
-              backgroundColor: Colors.black87,
-              floating: false,
-              //actions: [LogOff()],
-            ),
-          ];
-        },
-        body: const TabBarView(
-          children: [
-            LearnPage(),
-            TutorialPage(),
-            OpeninPage(),
-            ResourcesPage()
-          ],
+      body: Container(
+        padding: EdgeInsets.only(top: appBarHeight * 0.5),
+        decoration: const BoxDecoration(color: Colors.black),
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerboxisScrolled) {
+            return [
+              SliverAppBar(
+                pinned: true,
+                centerTitle: true,
+                title: SizedBox(
+                  height: appBarHeight,
+                  child: GestureDetector(
+                      onDoubleTap: getHome,
+                      child: const Image(
+                          image: AssetImage('assets/images/prodigy1.png'))),
+                ), //TextTheme2("Gambit"),
+                backgroundColor: Colors.black87,
+                foregroundColor: Colors.white,
+                floating: false,
+                //actions: [LogOff()],
+              ),
+            ];
+          },
+          body: const TabBarView(
+            children: [
+              LearnPage(),
+              TutorialPage(),
+              OpeninPage(),
+              ResourcesPage()
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.black87,
+        color: Colors.black,
         child: TabBar(
           tabs: [
             _buildTab(Icons.text_increase_sharp, 0),

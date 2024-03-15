@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:gambit/components/googletile.dart';
 import 'package:gambit/components/my_button.dart';
 import 'package:gambit/components/my_textfield.dart';
-import 'package:gambit/components/appletile.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gambit/components/start_logo.dart';
 import 'package:gambit/pages/auth_page.dart';
 import 'package:gambit/pages/create_account.dart';
 import 'package:gambit/services/auth_service.dart';
+import 'package:gambit/services/getrating.dart';
 import 'package:gambit/services/getusername.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,12 +40,12 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailcontroller.text, password: passcontroller.text);
+
       var tempuser = await getUsernameByEmail(emailcontroller.text);
       if (tempuser != null) {
         setValidationData(tempuser, emailcontroller.text);
       }
-      print('temp user is : $tempuser');
-      print('emailcontroller.text is : ${emailcontroller.text}');
+
       await Navigator.push(
         context,
         MaterialPageRoute(
@@ -56,20 +57,43 @@ class _LoginPageState extends State<LoginPage> {
       }
       // Wrong Email
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        // Show error message
-        setState(() {
-          errorMessage = 'User Not Found';
-        });
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
 
-        // Wrong Password
-      } else if (e.code == 'wrong-password') {
-        // Show error message
-        setState(() {
-          errorMessage = 'Wrong Password';
-        });
+      switch (e.code) {
+        case 'user-not-found':
+          _showErrorMessage('User not found. Please check your email.');
+          break;
+        case 'wrong-password':
+          _showErrorMessage('Wrong password. Please try again.');
+          break;
+        case 'invalid-email':
+          _showErrorMessage(
+              'Invalid email address. Please enter a valid email.');
+          break;
+        case 'user-disabled':
+          _showErrorMessage(
+              'Account has been disabled. Please contact support.');
+          break;
+        case 'too-many-requests':
+          _showErrorMessage('Too many sign-in attempts. Try again later.');
+          break;
+        default:
+          // Handle other errors or log the unknown error
+
+          _showErrorMessage('An unknown error occurred. Please try again.');
       }
     }
+  }
+
+  void _showErrorMessage(String message) {
+    // Use a Future to update the state after the build phase
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        errorMessage = message;
+      });
+    });
   }
 
   void clearErrorMessage() {
@@ -83,6 +107,9 @@ class _LoginPageState extends State<LoginPage> {
         await SharedPreferences.getInstance();
     sharedPreferences.setString('username', username);
     sharedPreferences.setString('email', email);
+
+    var userRating1 = await isRatingAvailable(username);
+    sharedPreferences.setInt('rating', userRating1);
   }
 
   // Login Page class
@@ -151,10 +178,12 @@ class _LoginPageState extends State<LoginPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         GoogleTile(
-            onTap: () => AuthService().signInWithGoogle(),
+            onTap: () async {
+              await AuthService().signInWithGoogle();
+            },
             imagePath: 'assets/images/google.png'),
-        const SizedBox(width: 55),
-        const SquareTile(imagePath: 'assets/images/apple.png'),
+        //const SizedBox(width: 55),
+        //const SquareTile(imagePath: 'assets/images/apple.png'),
       ],
     );
 
@@ -223,6 +252,18 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: true),
 
                 buttonLogin,
+
+                if (errorMessage != null)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      errorMessage!,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
 
                 buttonForgotPassword,
 

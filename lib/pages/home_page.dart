@@ -2,32 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:gambit/components/contain_image.dart';
 import 'package:gambit/components/friendview.dart';
 import 'package:gambit/components/neon_butt.dart';
+import 'package:gambit/pages/social_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      // Use FutureBuilder to load the image asynchronously
-      future: precacheImage(
-        const AssetImage('assets/images/back3.jpg'),
-        context,
-      ),
-      builder: (context, snapshot) {
-        // Check if the image has been loaded
-        if (snapshot.connectionState == ConnectionState.done) {
-          return _buildHomePage(context);
-        } else {
-          // Image is still loading, show a placeholder or loading indicator
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-      },
-    );
+    // Precache the image synchronously
+    precacheImage(const AssetImage('assets/images/back3.jpg'), context);
+
+    return _buildHomePage(context);
   }
 
   Widget _buildHomePage(BuildContext context) {
@@ -35,15 +20,11 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.center,
       width: double.infinity,
       height: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.black,
         image: DecorationImage(
           fit: BoxFit.fill,
-          image: const AssetImage('assets/images/back3.jpg'),
-          colorFilter: ColorFilter.mode(
-            Colors.black.withOpacity(0.15),
-            BlendMode.dstATop,
-          ),
+          image: AssetImage('assets/images/back3.jpg'),
         ),
       ),
       child: LayoutBuilder(
@@ -52,9 +33,6 @@ class HomePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 50,
-                ),
                 _page(context, constraints),
                 const SizedBox(
                   height: 50,
@@ -69,10 +47,14 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _page(BuildContext context, BoxConstraints constraints) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double containerHeight =
+        screenHeight * 0.82; // Adjust the percentage as needed
+
     return Stack(
       alignment: Alignment.topCenter,
       children: [
-        const ContainImage(imagePath: 'assets/images/top.jpg', ht: 650),
+        ContainImage(imagePath: 'assets/images/top.jpg', ht: containerHeight),
         Container(
           height: 100,
           width: 350,
@@ -112,23 +94,23 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-        const Positioned(
-          bottom: 45,
+        Positioned(
+          bottom: screenHeight * 0.07,
           right: 1,
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               NeonButt1("PLAY"),
             ],
           ),
         ),
-        const Positioned(
-          bottom: -20,
+        Positioned(
+          bottom: screenHeight * 0.02,
           left: -40,
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              NeonButt1("Puzzles"),
+              NeonButt5("Puzzles"),
             ],
           ),
         ),
@@ -143,6 +125,10 @@ class HomePage extends StatelessWidget {
       child: FloatingActionButton(
         onPressed: () {
           // Handle add friend button tap
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SocialPage()),
+          );
         },
         backgroundColor: Colors.amber.shade700.withOpacity(0.9),
         child: const Icon(Icons.person_add, color: Colors.white),
@@ -151,14 +137,19 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _page2(BuildContext context, BoxConstraints constraints) {
-    return const Stack(
+    double screenHeight = MediaQuery.of(context).size.height;
+    double containerHeight =
+        screenHeight * 0.82; // Adjust the percentage as needed
+
+    return Stack(
       alignment: Alignment.topCenter,
       children: [
-        ContainImage(imagePath: 'assets/images/angleview.jpg', ht: 650),
+        ContainImage(
+            imagePath: 'assets/images/angleview.jpg', ht: containerHeight),
         Positioned(
-          bottom: 250,
+          bottom: screenHeight * 0.07,
           right: -20,
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               NeonButt1("Events"),
@@ -166,9 +157,9 @@ class HomePage extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: 130,
+          bottom: screenHeight * 0.02,
           left: -20,
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               NeonButt1("Game Modes"),

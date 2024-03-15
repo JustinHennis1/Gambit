@@ -43,12 +43,14 @@ Handler _apiRouter() {
     final queryParameters = request.url.queryParameters;
     final fen = queryParameters['fen'];
     final depth = int.tryParse(queryParameters['depth'] ?? '');
-    if (fen == null || depth == null) {
+    final time = int.tryParse(queryParameters['time'] ?? '');
+
+    if (fen == null || depth == null || time == null) {
       return Response.notFound('Invalid request parameters');
     }
 
     try {
-      final result = await runStockfish(fen, depth, 5000);
+      final result = await runStockfish(fen, depth, time);
       return Response.ok(result);
     } catch (e) {
       return Response.internalServerError(body: 'Error: $e');
@@ -62,7 +64,7 @@ void main() {
   final handler =
       const Pipeline().addMiddleware(logRequests()).addHandler(_apiRouter());
 
-  shelf_io.serve(handler, 'localhost', 8080).then((server) {
+  shelf_io.serve(handler, '127.0.0.1', 8080).then((server) {
     print('Serving at http://${server.address.host}:${server.port}');
   });
 }
